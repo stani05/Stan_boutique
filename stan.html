@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STAN - Boutique Afro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- HEADER -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">STAN</h1>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-indigo-600">Accueil</a>
+                <a href="#products" class="hover:text-indigo-600">Produits</a>
+                <a href="#about" class="hover:text-indigo-600">À propos</a>
+                <a href="#contact" class="hover:text-indigo-600">Contact</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button id="cart-button" class="relative">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="bg-indigo-600 text-white py-16 text-center">
+        <h2 class="text-4xl font-bold mb-4">Boutique Afro à Ouagadougou</h2>
+        <p class="text-lg mb-6">Découvrez nos produits culturels et technologiques</p>
+        <a href="#products" class="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition">Acheter maintenant</a>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="py-16 container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-10">Produits Populaires</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Exemple produit -->
+            <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-id="1" data-name="T-shirt blanc" data-price="3000" data-image="images/tshirt.jpg">
+                <img src="images/tshirt.jpg" class="w-full h-48 object-cover" alt="T-shirt blanc">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg">T-shirt blanc</h3>
+                    <p class="text-gray-600">Mode</p>
+                    <div class="flex justify-between items-center mt-3">
+                        <span class="font-bold text-indigo-600">3 000 FCFA</span>
+                        <button class="add-to-cart bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-full">
+                            <i class="fas fa-cart-plus"></i> Ajouter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="bg-white py-16">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2">
+                <img src="images/about.jpg" class="rounded-lg shadow-md" alt="À propos">
+            </div>
+            <div class="md:w-1/2 md:pl-10 mt-6 md:mt-0">
+                <h2 class="text-3xl font-bold mb-4">À propos de STAN</h2>
+                <p class="mb-4">STAN est une boutique afro située à Ouagadougou, spécialisée dans les produits culturels et technologiques.</p>
+                <p>Notre mission est de promouvoir la culture africaine tout en rendant la technologie moderne accessible à tous.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact" class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 STAN Boutique. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- CART SIDEBAR -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden"></div>
+    <div id="cart-sidebar" class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+        <div class="p-4 h-full flex flex-col">
+            <div class="flex justify-between items-center border-b pb-4">
+                <h3 class="text-xl font-bold">Votre Panier</h3>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="cart-items" class="flex-grow overflow-y-auto py-4">
+                <p class="text-center text-gray-500">Votre panier est vide</p>
+            </div>
+            <div class="border-t pt-4">
+                <div class="flex justify-between mb-2">
+                    <span>Sous-total:</span>
+                    <span id="subtotal">0 FCFA</span>
+                </div>
+                <div class="flex justify-between mb-4">
+                    <span>Livraison:</span>
+                    <span id="shipping">0 FCFA</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg">
+                    <span>Total:</span>
+                    <span id="total">0 FCFA</span>
+                </div>
+                <button id="checkout-btn" class="w-full bg-indigo-600 text-white py-3 rounded-lg mt-4 hover:bg-indigo-700">
+                    Commander via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

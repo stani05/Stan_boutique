@@ -1,0 +1,93 @@
+/* STAN Boutique - style.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+header {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/banner.jpg') no-repeat center center/cover;
+    padding: 100px 20px;
+    text-align: center;
+    color: white;
+}
+
+.product-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.add-to-cart {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.add-to-cart:hover {
+    transform: scale(1.05);
+}
+
+#cart-sidebar {
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+#checkout-btn {
+    display: block;
+    background-color: #4f46e5;
+    text-align: center;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#checkout-btn:hover {
+    background-color: #4338ca;
+}
+
+footer {
+    background-color: #111827;
+    color: #d1d5db;
+    padding: 30px 10px;
+    text-align: center;
+}
+
+footer p {
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .hero h2 {
+        font-size: 1.8rem;
+    }
+
+    #cart-sidebar {
+        width: 100%;
+    }
+}
