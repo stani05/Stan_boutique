@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stan - Boutique Afro à Ouagadougou | Culture & Technologie</title>
+    <meta name="description" content="Découvrez la boutique STAN à Ouagadougou : articles culturels afro, vêtements wax, accessoires technologiques et artisanat local. Livraison dans tout le Burkina Faso.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Styles de base */
+        :root {
+            --primary: #4F46E5;
+            --primary-dark: #4338CA;
+            --secondary: #F59E0B;
+            --accent: #EC4899;
+            --dark: #1F2937;
+            --light: #F3F4F6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #FAFAFA;
+            color: #1F2937;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        
+        /* Header avec animation au scroll */
+        header {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        header.scrolled {
+            padding: 8px 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+           100% { transform: scale(1); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Effets de survol produits */
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .product-image {
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        /* Navigation */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        /* Hero section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Compteur promotion */
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Section témoignages */
+        .testimonial-card {
+            background: linear-gradient(135deg, #fff 0%, #F9FAFB 100%);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Bouton de retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+        
+        /* Barre de progression */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        /* Animation apparition éléments */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Cart notification */
+        .cart-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-notification.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Search modal */
+        .search-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Rating stars */
+        .rating {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            text-align: left;
+        }
+        .rating > span {
+            display: inline-block;
+            position: relative;
+            width: 1.1em;
+            cursor: pointer;
+            color: #ddd;
+        }
+        .rating > span:hover:before,
+        .rating > span:hover ~ span:before {
+            content: "\2605";
+            position: absolute;
+            color: #F59E0B;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4F46E5;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Barre de progression -->
+    <div class="progress-bar" id="progress-bar"></div>
+    
+    <!-- Bouton de retour en haut -->
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="bg-white rounded-lg p-6 w-11/12 md:w-1/2">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Rechercher un produit</h3>
+                <button id="close-search" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="relative">
+                <input type="text" placeholder="Que cherchez-vous?" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <button class="absolute right-2 top-2 bg-indigo-600 text-white p-2 rounded-lg">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="mt-4">
+                <h4 class="font-semibold mb-2">Suggestions</h4>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Wax</span>
+                    <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Pagne</span>
+                    <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Technologie</span>
+                    <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Artisanat</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50" id="main-header">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="#" class="text-2xl font-bold text-indigo-600">STAN</a>
+                <span class="ml-2 text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">Boutique Afro</span>
+            </div>
+
+            <!-- Navigation Desktop -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-gray-700 hover:text-indigo-600 font-medium transition duration-300">Accueil</a>
+                <div class="dropdown relative">
+                    <button class="text-gray-700 hover:text-indigo-600 font-medium flex items-center transition duration-300">
+                        Boutique <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-white shadow-lg rounded-md mt-2 py-2 w-48 z-10">
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 transition duration-300">Tous les produits</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 transition duration-300">Nouveautés</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 transition duration-300">Meilleures ventes</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 transition duration-300">Promotions</a>
+                    </div>
+                </div>
+                <a href="#about" class="text-gray-700 hover:text-indigo-600 font-medium transition duration-300">À propos</a>
+                <a href="#contact" class="text-gray-700 hover:text-indigo-600 font-medium transition duration-300">Contact</a>
+            </nav>
+
+            <!-- Icons -->
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-600 hover:text-indigo-600 transition duration-300" id="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="text-gray-600 hover:text-indigo-600 relative transition duration-300">
+                    <i class="fas fa-heart"></i>
+                    <span class="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                </button>
+                <button class="text-gray-600 hover:text-indigo-600 relative transition duration-300" id="cart-button">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" id="cart-count">0</span>
+                </button>
+                <button class="md:hidden text-gray-600 hover:text-indigo-600 transition duration-300" id="mobile-menu-button">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-menu md:hidden bg-white py-2 px-4 shadow-md" id="mobile-menu">
+            <a href="#" class="block py-2 text-gray-700 hover:text-indigo-600 transition duration-300">Accueil</a>
+            <a href="#" class="block py-2 text-gray-700 hover:text-indigo-600 transition duration-300">Boutique</a>
+            <a href="#about" class="block py-2 text-gray-700 hover:text-indigo-600 transition duration-300">À propos</a>
+            <a href="#contact" class="block py-2 text-gray-700 hover:text-indigo-600 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero text-white py-20 md:py-32">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">CULTURE ET TECHNOLOGIE À OUAGADOUGOU</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto animate-fade-in">Découvrez notre sélection d'articles culturels et technologiques pour la jeunesse burkinabè</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in">
+                <a href="#products" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-full font-medium transition duration-300 animate-pulse">Acheter maintenant</a>
+                <a href="#about" class="bg-white hover:bg-gray-100 text-indigo-600 px-8 py-3 rounded-full font-medium transition duration-300">Découvrir</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promotion Banner -->
+    <section class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="bg-white bg-opacity-20 p-2 rounded-full mr-3">
+                        <i class="fas fa-gift text-2xl"></i>
+                    </div>
+                    <p class="font-semibold">OFFRE SPÉCIALE - 20% DE RÉDUCTION SUR TOUS LES PRODUITS</p>
+                </div>
+                <div class="flex space-x-4">
+                    <div class="countdown-box px-3 py-2 rounded-lg text-center">
+                        <div class="font-bold text-2xl" id="countdown-days">02</div>
+                        <div class="text-xs">Jours</div>
+                    </div>
+                    <div class="countdown-box px-3 py-2 rounded-lg text-center">
+                        <div class="font-bold text-2xl" id="countdown-hours">12</div>
+                        <div class="text-xs">Heures</div>
+                    </div>
+                    <div class="countdown-box px-3 py-2 rounded-lg text-center">
+                        <div class="font-bold text-2xl" id="countdown-minutes">45</div>
+                        <div class="text-xs">Minutes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 fade-in-element">Nos catégories</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <a href="#" class="category-card bg-gray-100 rounded-lg overflow-hidden hover:shadow-md transition duration-300 fade-in-element">
+                    <div class="h-40 bg-indigo-100 flex items-center justify-center">
+                        <i class="fas fa-tshirt text-4xl text-indigo-600"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-lg">Wax & Pagne</h3>
+                        <p class="text-gray-500 text-sm">Tissus africains</p>
+                    </div>
+                </a>
+                <a href="#" class="category-card bg-gray-100 rounded-lg overflow-hidden hover:shadow-md transition duration-300 fade-in-element">
+                    <div class="h-40 bg-yellow-100 flex items-center justify-center">
+                        <i class="fas fa-home text-4xl text-yellow-600"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-lg">Artisanat</h3>
+                        <p class="text-gray-500 text-sm">Objets d'art</p>
+                    </div>
+                </a>
+                <a href="#" class="category-card bg-gray-100 rounded-lg overflow-hidden hover:shadow-md transition duration-300 fade-in-element">
+                    <div class="h-40 bg-green-100 flex items-center justify-center">
+                        <i class="fas fa-laptop text-4xl text-green-600"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-lg">Beauté Afro</h3>
+                        <p class="text-gray-500 text-sm">Soins capillaires</p>
+                    </div>
+                </a>
+                <a href="#" class="category-card bg-gray-100 rounded-lg overflow-hidden hover:shadow-md transition duration-300 fade-in-element">
+                    <div class="h-40 bg-blue-100 flex items-center justify-center">
+                        <i class="fas fa-plug text-4xl text-blue-600"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-lg">Accessoires</h3>
+                        <p class="text-gray-500 text-sm">Électronique & Électrique</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="py-16 bg-gray-50" id="products">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8 fade-in-element">
+                <h2 class="text-3xl font-bold">Produits populaires</h2>
+                <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium transition duration-300">Voir tout <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Product 1 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm transition duration-300 fade-in-element" data-id="1" data-name="T-shirt blanc" data-price="3000" data-image="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="T-shirt blanc" class="w-full h-64 object-cover product-image">
+                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">-20%</div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-medium text-lg mb-1">T-shirt blanc</h3>
+                                <p class="text-gray-500 text-sm">Vêtements</p>
+                            </div>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-300">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div>
+                                <span class="text-gray-400 line-through mr-2">12 000 FCFA</span>
+                                <span class="font-bold text-indigo-600">3 000 FCFA</span>
+                            </div>
+                            <button class="add-to-cart bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-full text-sm transition duration-300">
+                                <i class="fas fa-shopping-cart mr-1"></i> Ajouter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm transition duration-300 fade-in-element" data-id="2" data-name="Montre intelligente" data-price="20000" data-image="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Montre intelligente" class="w-full h-64 object-cover product-image">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-medium text-lg mb-1">Montre intelligente</h3>
+                                <p class="text-gray-500 text-sm">Électronique</p>
+                            </div>
+                            <button class="text-red-500">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="font-bold text-indigo-600">20 000 FCFA</span>
+                            <button class="add-to-cart bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-full text-sm transition duration-300">
+                                <i class="fas fa-shopping-cart mr-1"></i> Ajouter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm transition duration-300 fade-in-element" data-id="3" data-name="Lampe de table" data-price="25000" data-image="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Lampe de table" class="w-full h-64 object-cover product-image">
+                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Nouveau</div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-medium text-lg mb-1">Lampe de table</h3>
+                                <p class="text-gray-500 text-sm">Maison</p>
+                            </div>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-300">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="font-bold text-indigo-600">25 000 FCFA</span>
+                            <button class="add-to-cart bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-full text-sm transition duration-300">
+                                <i class="fas fa-shopping-cart mr-1"></i> Ajouter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm transition duration-300 fade-in-element" data-id="4" data-name="Casque audio" data-price="60000" data-image="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Casque audio" class="w-full h-64 object-cover product-image">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-medium text-lg mb-1">Casque audio</h3>
+                                <p class="text-gray-500 text-sm">Électronique</p>
+                            </div>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-300">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="font-bold text-indigo-600">60 000 FCFA</span>
+                            <button class="add-to-cart bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-full text-sm transition duration-300">
+                                <i class="fas fa-shopping-cart mr-1"></i> Ajouter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Delivery Info Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 fade-in-element">Options de livraison</h2>
+            
+            <div class="mt-12 bg-gray-50 p-6 rounded-lg fade-in-element">
+                <div class="flex items-start">
+                    <div class="bg-indigo-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-truck text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">Frais de livraison</h3>
+                        <p class="text-gray-600 mb-2">Les frais de livraison varient entre 1 000 et 5 000 FCFA en fonction de la valeur du colis et de votre localisation.</p>
+                        <p class="text-green-600 font-semibold">La livraison est gratuite à partir de 10 000 FCFA d'achat !</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 fade-in-element">Ce que disent nos clients</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="testimonial-card p-6 rounded-lg fade-in-element">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-indigo-600 font-semibold">JD</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Jean D.</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"J'ai commandé un casque audio et j'ai été impressionné par la qualité du produit et la rapidité de la livraison. Je recommande vivement!"</p>
+                </div>
+                
+                <div class="testimonial-card p-6 rounded-lg fade-in-element">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-purple-600 font-semibold">AM</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Aïcha M.</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Les pagnes que j'ai achetés sont de excellente qualité. Les motifs sont magnifiques et les tissus sont respirants. Je reviendrai!"</p>
+                </div>
+                
+                <div class="testimonial-card p-6 rounded-lg fade-in-element">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-green-600 font-semibold">PK</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Paul K.</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Service client exceptionnel! J'ai eu un problème avec ma commande et ils l'ont résolu rapidement. Produits de qualité et livraison rapide."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 fade-in-element">Questions fréquentes</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="bg-white rounded-lg shadow-sm mb-4 overflow-hidden fade-in-element">
+                    <button class="faq-question w-full text-left p-4 flex justify-between items-center font-medium">
+                        <span>Comment passer commande ?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer p-4 border-t hidden">
+                        <p class="text-gray-600">Pour passer commande, ajoutez les produits à votre panier, cliquez sur l'icône panier et finalisez votre achat. Vous recevrez un confirmation par email.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm mb-4 overflow-hidden fade-in-element">
+                    <button class="faq-question w-full text-left p-4 flex justify-between items-center font-medium">
+                        <span>Quels sont les modes de paiement acceptés ?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer p-4 border-t hidden">
+                        <p class="text-gray-600">Nous acceptons les cartes Visa et Mastercard, les virements bancaires, Orange Money et le paiement à la livraison dans certaines zones.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm mb-4 overflow-hidden fade-in-element">
+                    <button class="faq-question w-full text-left p-4 flex justify-between items-center font-medium">
+                        <span>Quelle est la durée de livraison ?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer p-4 border-t hidden">
+                        <p class="text-gray-600">La livraison standard prend 3-5 jours ouvrés. La livraison express est disponible pour une livraison sous 24-48 heures.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm mb-4 overflow-hidden fade-in-element">
+                    <button class="faq-question w-full text-left p-4 flex justify-between items-center font-medium">
+                        <span>Puis-je retourner un produit ?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer p-4 border-t hidden">
+                        <p class="text-gray-600">Oui, vous pouvez retourner tout produit non utilisé dans son emballage d'origine sous 14 jours pour un remboursement complet ou un échange.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter py-16 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 fade-in-element">Abonnez-vous à notre newsletter</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto fade-in-element">Recevez des offres exclusives, des réductions et des informations sur nos nouveaux produits.</p>
+            <form class="max-w-md mx-auto flex fade-in-element">
+                <input type="email" placeholder="Votre adresse email" class="flex-grow px-4 py-3 rounded-l-full focus:outline-none text-gray-800">
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-r-full font-medium transition duration-300">S'abonner</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-16 bg-white" id="about">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 fade-in-element">
+                    <img src="https://images.unsplash.com/photo-1560472355-536de3962603?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="À propos de STAN" class="rounded-lg shadow-md">
+                </div>
+                <div class="md:w-1/2 md:pl-12 fade-in-element">
+                    <h2 class="text-3xl font-bold mb-6">À propos de STAN</h2>
+                    <p class="text-gray-700 mb-4">STAN est une boutique afro située à Ouagadougou, spécialisée dans les produits culturels et technologiques pour la jeunesse burkinabè.</p>
+                    <p class="text-gray-700 mb-4">Nous proposons une large sélection d'articles allant des vêtements traditionnels aux accessoires technologiques modernes, en passant par l'artisanat local.</p>
+                    <p class="text-gray-700 mb-6">Notre mission est de promouvoir la culture africaine tout en rending accessible la technologie moderne à tous.</p>
+                    <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-full font-medium inline-block transition duration-300">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" id="cart-overlay"></div>
+    <div class="fixed top-0 right-0 w-full sm:w-96 h-full bg-white shadow-lg z-50 transform translate-x-full transition-transform duration-300" id="cart-sidebar">
+        <div class="p-4 h-full flex flex-col">
+            <div class="flex justify-between items-center border-b pb-4">
+                <h3 class="text-xl font-bold">Votre Panier</h3>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700 transition duration-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="flex-grow overflow-y-auto py-4" id="cart-items">
+                <!-- Cart items will be added here dynamically -->
+                <p class="text-gray-500 text-center py-8">Votre panier est vide</p>
+            </div>
+            
+            <div class="border-t pt-4">
+                <div class="flex justify-between mb-2">
+                    <span>Sous-total:</span>
+                    <span id="subtotal">0 FCFA</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span>Livraison:</span>
+                    <span id="shipping">0 FCFA</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span>Taxes (18%):</span>
+                    <span id="taxes">0 FCFA</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg mb-4">
+                    <span>Total:</span>
+                    <span id="total">0 FCFA</span>
+                </div>
+                
+                <button id="checkout-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg transition duration-300">
+                    Commander via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Notification -->
+    <div class="cart-notification" id="cart-notification">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span>Produit ajouté au panier!</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-12 pb-6" id="contact">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">STAN</h3>
+                    <p class="text-gray-400 mb-4">Boutique afro à Ouagadougou, spécialisée dans les produits culturels pour la jeunesse burkinabè.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Liens rapides</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Accueil</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Boutique</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">À propos</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Customer Service -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Service client</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Mon compte</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Suivi de commande</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Politique de retour</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Mentions légales</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-credit-card mt-1 mr-3"></i>
+                            <span>Paiements: Visa, PayPal, Orange Money</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3"></i>
+                            <span>Avenue Kwame Nkrumah, Ouagadougou, Burkina Faso</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fab fa-whatsapp mr-3"></i>
+                            <span>WhatsApp: +226 54 55 78 47</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-money-bill-wave mr-3"></i>
+                            <span>Orange Money: +226 54 55 78 47</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            <span>contact@stan-afro.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 STAN Boutique. Tous droits réservés.</p>
+                <div class="flex space-x-6">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="h-6">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png" alt="PayPal" class="h-6">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Orange_Money_logo.svg/1200px-Orange_Money_logo.svg.png" alt="Orange Money" class="h-6">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Cart functionality with localStorage persistence
+        let cart = JSON.parse(localStorage.getItem('stan-cart')) || [];
+        const taxRate = 0.18; // 18% tax
+        const freeShippingThreshold = 10000; // Free shipping above 10000 FCFA
+        
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('stan-cart', JSON.stringify(cart));
+        }
+        
+        // Calculate shipping cost based on order value and location
+        function calculateShipping(subtotal) {
+            if (subtotal >= freeShippingThreshold) {
+                return 0;
+            }
+            
+            // Simulate shipping cost between 1000 and 5000 FCFA
+            const minShipping = 1000;
+            const maxShipping = 5000;
+            
+            // Calculate shipping as a percentage of order value (between 5% and 15%)
+            const shippingPercentage = 0.05 + (Math.random() * 0.1);
+            let shippingCost = Math.round(subtotal * shippingPercentage);
+            
+            // Ensure shipping is within the min and max range
+            shippingCost = Math.max(minShipping, Math.min(maxShipping, shippingCost));
+            
+            return shippingCost;
+        }
+        
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('active');
+        });
+        
+        // Search functionality
+        document.getElementById('search-button').addEventListener('click', function() {
+            document.getElementById('search-modal').classList.add('active');
+        });
+        
+        document.getElementById('close-search').addEventListener('click', function() {
+            document.getElementById('search-modal').classList.remove('active');
+        });
+        
+        // Update cart function
+        function updateCart() {
+            const cartCount = document.getElementById('cart-count');
+            const cartItems = document.getElementById('cart-items');
+            const subtotalEl = document.getElementById('subtotal');
+            const shippingEl = document.getElementById('shipping');
+            const taxesEl = document.getElementById('taxes');
+            const totalEl = document.getElementById('total');
+            
+            cartCount.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = calculateShipping(subtotal);
+            const taxes = subtotal * taxRate;
+            const total = subtotal + shipping + taxes;
+            
+            subtotalEl.textContent = `${subtotal.toLocaleString('fr-FR')} FCFA`;
+            shippingEl.textContent = `${shipping.toLocaleString('fr-FR')} FCFA`;
+            taxesEl.textContent = `${taxes.toLocaleString('fr-FR')} FCFA`;
+            totalEl.textContent = `${total.toLocaleString('fr-FR')} FCFA`;
+            
+            // Update cart items
+            if (cart.length > 0) {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex justify-between items-center mb-4 pb-4 border-b">
+                        <div class="flex items-center">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                            <div class="ml-3">
+                                <h4 class="font-medium">${item.name}</h4>
+                                <p class="text-gray-500 text-sm">${item.price.toLocaleString('fr-FR')} FCFA × ${item.quantity}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <button class="quantity-btn px-2 py-1 border rounded" data-id="${item.id}" data-action="decrease">-</button>
+                            <span class="mx-2">${item.quantity}</span>
+                            <button class="quantity-btn px-2 py-1 border rounded" data-id="${item.id}" data-action="increase">+</button>
+                            <button class="remove-btn ml-2 text-red-500" data-id="${item.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Attach event listeners to the new buttons
+                attachCartEventListeners();
+            } else {
+                cartItems.innerHTML = '<p class="text-gray-500 text-center py-8">Votre panier est vide</p>';
+            }
+            
+            // Save cart to localStorage
+            saveCart();
+        }
+        
+        // Attach event listeners to cart buttons
+        function attachCartEventListeners() {
+            // Quantity buttons
+            document.querySelectorAll('.quantity-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const action = this.dataset.action;
+                    const item = cart.find(item => item.id === id);
+                    
+                    if (item) {
+                        if (action === 'increase') {
+                            item.quantity++;
+                        } else if (action === 'decrease' && item.quantity > 1) {
+                            item.quantity--;
+                        } else if (action === 'decrease' && item.quantity === 1) {
+                            if (confirm('Voulez-vous supprimer ce produit du panier?')) {
+                                const index = cart.indexOf(item);
+                                cart.splice(index, 1);
+                            }
+                        }
+                        updateCart();
+                    }
+                });
+            });
+            
+            // Remove buttons
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const item = cart.find(item => item.id === id);
+                    
+                    if (item && confirm('Voulez-vous supprimer ce produit du panier?')) {
+                        const index = cart.indexOf(item);
+                        cart.splice(index, 1);
+                        updateCart();
+                    }
+                });
+            });
+        }
+        
+        // Add to cart buttons
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const product = {
+                    id: productCard.dataset.id,
+                    name: productCard.dataset.name,
+                    price: parseInt(productCard.dataset.price),
+                    image: productCard.dataset.image,
+                    quantity: 1
+                };
+                
+                const existingItem = cart.find(item => item.id === product.id);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push(product);
+                }
+                
+                updateCart();
+                
+                // Show notification
+                const notification = document.getElementById('cart-notification');
+                notification.classList.add('active');
+                setTimeout(() => {
+                    notification.classList.remove('active');
+                }, 3000);
+            });
+        });
+        
+        // Cart toggle
+        document.getElementById('cart-button').addEventListener('click', () => {
+            document.getElementById('cart-overlay').classList.remove('hidden');
+            document.getElementById('cart-sidebar').classList.remove('translate-x-full');
+        });
+        
+        document.getElementById('close-cart').addEventListener('click', () => {
+            document.getElementById('cart-overlay').classList.add('hidden');
+            document.getElementById('cart-sidebar').classList.add('translate-x-full');
+        });
+        
+        document.getElementById('cart-overlay').addEventListener('click', () => {
+            document.getElementById('cart-overlay').classList.add('hidden');
+            document.getElementById('cart-sidebar').classList.add('translate-x-full');
+        });
+        
+        // Checkout via WhatsApp
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Votre panier est vide');
+                return;
+            }
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = calculateShipping(subtotal);
+            const taxes = subtotal * taxRate;
+            const total = subtotal + shipping + taxes;
+            
+            // Create order message
+            let message = "Bonjour! Je souhaite commander les articles suivants:%0A%0A";
+            
+            cart.forEach(item => {
+                message += `- ${item.name} (${item.quantity} × ${item.price.toLocaleString('fr-FR')} FCFA)%0A`;
+            });
+            
+            message += `%0ASous-total: ${subtotal.toLocaleString('fr-FR')} FCFA%0A`;
+            message += `Livraison: ${shipping.toLocaleString('fr-FR')} FCFA%0A`;
+            message += `Taxes: ${taxes.toLocaleString('fr-FR')} FCFA%0A`;
+            message += `*Total: ${total.toLocaleString('fr-FR')} FCFA*%0A%0A`;
+            message += "Merci de me recontacter pour finaliser la commande.";
+            
+            // Open WhatsApp
+            const whatsappNumber = "22654557847";
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+        });
+        
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('.newsletter form');
+        if(newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                
+                // Basic email validation
+                if (!email || !email.includes('@')) {
+                    alert('Veuillez entrer une adresse email valide');
+                    return;
+                }
+                
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<div class="spinner"></div>';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    alert(`Merci pour votre inscription avec l'email: ${email}`);
+                    this.reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 1500);
+            });
+        }
+        
+        // FAQ functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                // Toggle answer visibility
+                answer.classList.toggle('hidden');
+                
+                // Rotate icon
+                icon.classList.toggle('rotate-180');
+            });
+        });
+        
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+            
+            // Update progress bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+            
+            // Header scroll effect
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            // Fade in elements on scroll
+            document.querySelectorAll('.fade-in-element').forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Countdown timer
+        function updateCountdown() {
+            const now = new Date();
+            const targetDate = new Date();
+            targetDate.setDate(now.getDate() + 2);
+            targetDate.setHours(23, 59, 59, 999);
+            
+            const timeRemaining = targetDate - now;
+            
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+        }
+        
+        // Initialize countdown and update every minute
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+        
+        // Initialize fade-in elements
+        document.querySelectorAll('.fade-in-element').forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            if (elementTop < window.innerHeight - elementVisible) {
+                element.classList.add('visible');
+            }
+        });
+        
+        // Initialize cart on page load
+        updateCart();
+    </script>
+</body>
+</html>
